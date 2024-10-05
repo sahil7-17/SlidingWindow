@@ -1,0 +1,43 @@
+Leetcode : 567
+
+Input: s1 = "ab", s2 = "eidbaooo"
+Output: true
+Explanation: s2 contains one permutation of s1 ("ba").
+
+class Solution {
+public:
+    bool checkInclusion(string s1, string s2) {
+        int n = s1.length();
+        int m = s2.length();
+        
+        if(n > m){    //If s1 size is greater that s2 then their can't be any permutation so we return false from here 
+            return false;
+        }
+        
+        vector<int>freqS1(26);
+        vector<int>freqS2(26);
+
+        for(char &ch : s1){
+            freqS1[ch-'a']++;   putting the s1 character into a frequency array that we check after every iteration that the s2 is same as s1 if yes then return true;
+        }
+
+        int i = 0;
+        int j = 0;
+        while(j<m){
+            freqS2[s2[j]-'a']++;   //putting the characters one by one into freqs1 array 
+
+            if(j-i+1 > n){     //If the window size exceeed we shrink the window and decrease the freq of i element  because it is not in our window 
+                freqS2[s2[i]-'a']--;
+                i++;
+            }
+            
+            if(freqS1 == freqS2){    //If the freq of s1 and s2 matches then the s2 contains the permutation of s1 so we return true;
+                return true;
+            }
+            j++;   //because it's sliding window approach so we always move the jth index 
+        }
+        return false;
+    }
+};
+
+
